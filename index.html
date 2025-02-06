@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Surprise</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #ff758c, #ff7eb3);
+            text-align: center;
+            color: white;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3em;
+            animation: fadeIn 2s ease-in-out, glow 2s infinite alternate;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        p {
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+        .heart-button {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .heart-button:hover {
+            transform: scale(1.1);
+            background: #ff1a50;
+        }
+        .hidden-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px white; }
+            to { text-shadow: 0 0 20px pink; }
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        .floating-heart {
+            position: absolute;
+            color: red;
+            font-size: 2em;
+            animation: floatUp 5s linear infinite;
+        }
+        .background-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-hearts"></div>
+    <h1>Happy Valentine's Week, My Love! ❤️</h1>
+    <p>You make my world brighter every day!</p>
+    <button class="heart-button" onclick="showMessage()">Click for a Surprise 💕</button>
+    <p class="hidden-message" id="message">Like a rose that blooms with grace, <br>my love for you grows stronger each day. Happy Rose Day! 🌹❤️</p>
+
+    <script>
+        function showMessage() {
+            document.getElementById('message').style.display = 'block';
+            setInterval(createFloatingHeart, 300);
+        }
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('floating-heart');
+            document.body.appendChild(heart);
+            
+            heart.style.left = `${Math.random() * window.innerWidth}px`;
+            heart.style.bottom = '-50px';
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
