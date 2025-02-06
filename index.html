@@ -31,7 +31,11 @@
             font-size: 1.2em;
             font-weight: 300;
         }
-        #rose { cursor: pointer; }
+        #rose {
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+        }
         .hidden-message {
             display: none;
             margin-top: 20px;
@@ -66,6 +70,18 @@
             overflow: hidden;
             z-index: -1;
         }
+
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            #rose {
+                width: 80%;
+                max-width: 400px;
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -73,7 +89,6 @@
     <h1>Happy Valentine's Week, My Love! ❤️</h1>
     <p>You make my world brighter every day!</p>
     
-    <!-- Rose animation SVG -->
     <svg id="rose" width="500" height="600" viewBox="0 0 400 600">
         <g id="stem">
             <path id="stemPath" d="M200 550 Q190 450, 200 350 Q210 250, 200 150" 
