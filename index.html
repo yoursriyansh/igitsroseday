@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Surprise</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
         body {
@@ -30,21 +31,7 @@
             font-size: 1.2em;
             font-weight: 300;
         }
-        .heart-button {
-            background: #ff3366;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 50px;
-            transition: transform 0.3s, background 0.3s;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .heart-button:hover {
-            transform: scale(1.1);
-            background: #ff1a50;
-        }
+        #rose { cursor: pointer; }
         .hidden-message {
             display: none;
             margin-top: 20px;
@@ -85,14 +72,95 @@
     <div class="background-hearts"></div>
     <h1>Happy Valentine's Week, My Love! ❤️</h1>
     <p>You make my world brighter every day!</p>
-    <button class="heart-button" onclick="showMessage()">Click for a Surprise 💕</button>
+    
+    <!-- Rose animation SVG -->
+    <svg id="rose" width="500" height="600" viewBox="0 0 400 600">
+        <g id="stem">
+            <path id="stemPath" d="M200 550 Q190 450, 200 350 Q210 250, 200 150" 
+                  stroke="#2ecc71" stroke-width="15" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <g id="petalGroup">
+            <path id="centerPetal1" d="M200 250 Q180 230, 200 210 Q220 230, 200 250" fill="#8e44ad" opacity="0.9"/>
+            <path id="centerPetal2" d="M200 250 Q220 230, 200 210 Q180 230, 200 250" fill="#8e44ad" opacity="0.9"/>
+            
+            <path id="innerPetal1" d="M200 280 Q160 260, 200 240 Q240 260, 200 280" fill="#c0392b" opacity="0.9"/>
+            <path id="innerPetal2" d="M200 280 Q240 260, 200 240 Q160 260, 200 280" fill="#c0392b" opacity="0.9"/>
+        </g>
+    </svg>
+
     <p class="hidden-message" id="message">Like a rose that blooms with grace, <br>my love for you grows stronger each day. Happy Rose Day! 🌹❤️</p>
 
     <script>
-        function showMessage() {
+        const rose = document.getElementById('rose');
+        const petalGroup = document.getElementById('petalGroup');
+        const stemPath = document.getElementById('stemPath');
+
+        rose.addEventListener('click', () => {
+            const isOpen = petalGroup.dataset.open === 'true';
+            
+            if (!isOpen) {
+                gsap.timeline()
+                    .to('#stemPath', {
+                        attr: { d: "M200 450 Q190 400, 200 350 Q210 300, 200 250" },
+                        duration: 0.5
+                    })
+                    .to('#centerPetal1', { 
+                        scaleX: 2, 
+                        scaleY: 1.5,
+                        rotation: 30, 
+                        transformOrigin: 'center', 
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    }, 0)
+                    .to('#centerPetal2', { 
+                        scaleX: 2, 
+                        scaleY: 1.5,
+                        rotation: -30, 
+                        transformOrigin: 'center', 
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    }, 0)
+                    .to('#innerPetal1', { 
+                        scaleX: 2.2, 
+                        scaleY: 1.6,
+                        rotation: 45, 
+                        transformOrigin: 'center', 
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.3)"
+                    }, 0)
+                    .to('#innerPetal2', { 
+                        scaleX: 2.2, 
+                        scaleY: 1.6,
+                        rotation: -45, 
+                        transformOrigin: 'center', 
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.3)"
+                    }, 0);
+
+                petalGroup.dataset.open = 'true';
+            } else {
+                gsap.timeline()
+                    .to('#stemPath', {
+                        attr: { d: "M200 550 Q190 450, 200 350 Q210 250, 200 150" },
+                        duration: 0.5
+                    })
+                    .to(['#centerPetal1', '#centerPetal2', '#innerPetal1', '#innerPetal2'], { 
+                        scaleX: 1,
+                        scaleY: 1,
+                        rotation: 0, 
+                        transformOrigin: 'center', 
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.3)"
+                    }, 0);
+
+                petalGroup.dataset.open = 'false';
+            }
+
             document.getElementById('message').style.display = 'block';
             setInterval(createFloatingHeart, 300);
-        }
+        });
+
         function createFloatingHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
